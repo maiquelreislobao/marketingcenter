@@ -4,6 +4,7 @@ export default function PortalMarketingLobao() {
   const [selectedDept, setSelectedDept] = useState(null);
   const [sortOption, setSortOption] = useState("asc");
   const [viewCounts, setViewCounts] = useState({});
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     try {
@@ -152,16 +153,91 @@ export default function PortalMarketingLobao() {
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-zinc-950 text-white">
-      <header className="border-b border-white/10 bg-gradient-to-br from-red-600 via-red-500 to-zinc-950">
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-10">
-          <div className="max-w-3xl">
-            <div className="mb-6 flex items-center gap-4">
+      <header className="sticky top-0 z-50 border-b border-white/10 bg-zinc-950/95 backdrop-blur-md">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-10">
+          <div className="flex min-w-0 items-center gap-3">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5">
               <img
                 src="/logo.png"
                 alt="Logo"
-                className="h-14 w-14 rounded-lg bg-white/10 object-contain p-1"
+                className="h-9 w-9 object-contain"
               />
             </div>
+
+            <div className="min-w-0">
+              <p className="truncate text-sm font-semibold text-white">
+                Central de solicitações de Marketing
+              </p>
+              <p className="truncate text-xs text-zinc-400">
+                Portal interno • Jira Forms • Marketing
+              </p>
+            </div>
+          </div>
+
+          <div className="hidden items-center gap-2 md:flex">
+            <a
+              href="?"
+              className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-zinc-200 transition hover:border-red-500/40 hover:bg-zinc-800"
+            >
+              Início
+            </a>
+            <a
+              href="#departamentos"
+              className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-zinc-200 transition hover:border-red-500/40 hover:bg-zinc-800"
+            >
+              Departamentos
+            </a>
+            <a
+              href="#categorias"
+              className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-zinc-200 transition hover:border-red-500/40 hover:bg-zinc-800"
+            >
+              Categorias
+            </a>
+          </div>
+
+          <button
+            type="button"
+            aria-label="Abrir menu"
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen((prev) => !prev)}
+            className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white transition hover:border-red-500/40 hover:bg-zinc-800 md:hidden"
+          >
+            <span className="text-lg">{menuOpen ? "✕" : "☰"}</span>
+          </button>
+        </div>
+
+        {menuOpen && (
+          <div className="border-t border-white/10 bg-zinc-950/95 px-4 py-3 sm:px-6 md:hidden">
+            <div className="flex flex-col gap-2">
+              <a
+                href="?"
+                onClick={() => setMenuOpen(false)}
+                className="rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-zinc-200 transition hover:border-red-500/40 hover:bg-zinc-800"
+              >
+                Início
+              </a>
+              <a
+                href="#departamentos"
+                onClick={() => setMenuOpen(false)}
+                className="rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-zinc-200 transition hover:border-red-500/40 hover:bg-zinc-800"
+              >
+                Departamentos
+              </a>
+              <a
+                href="#categorias"
+                onClick={() => setMenuOpen(false)}
+                className="rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-zinc-200 transition hover:border-red-500/40 hover:bg-zinc-800"
+              >
+                Categorias
+              </a>
+            </div>
+          </div>
+        )}
+      </header>
+
+      <section className="border-b border-white/10 bg-gradient-to-br from-red-600 via-red-500 to-zinc-950">
+        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12 lg:px-10">
+          <div className="max-w-3xl">
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm">
               🚀 Portal de Solicitações de Marketing
             </div>
@@ -175,9 +251,9 @@ export default function PortalMarketingLobao() {
             </p>
           </div>
         </div>
-      </header>
+      </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-10">
+      <section id="departamentos" className="mx-auto max-w-7xl px-4 py-8 scroll-mt-24 sm:px-6 sm:py-10 lg:px-10">
         <p className="mb-2 text-sm text-zinc-400">Clique no departamento ou use um link direto</p>
         <h2 className="mb-5 text-xl font-black sm:text-2xl">Solicitar por departamento</h2>
 
@@ -198,7 +274,7 @@ export default function PortalMarketingLobao() {
         </div>
       </section>
 
-      <main className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 sm:pb-14 lg:px-10">
+      <main id="categorias" className="mx-auto max-w-7xl px-4 pb-12 scroll-mt-24 sm:px-6 sm:pb-14 lg:px-10">
         <div className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <h2 className="text-2xl font-black sm:text-3xl">
@@ -210,12 +286,12 @@ export default function PortalMarketingLobao() {
           </div>
 
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-            <div className="flex gap-2 rounded-xl border border-white/10 bg-zinc-900 p-1">
+            <div className="grid grid-cols-1 gap-2 rounded-xl border border-white/10 bg-zinc-900 p-1 sm:flex sm:gap-2">
               {["asc", "desc", "views"].map((opt) => (
                 <button
                   key={opt}
                   onClick={() => setSortOption(opt)}
-                  className={`px-3 py-2 text-sm rounded-lg ${
+                  className={`rounded-lg px-3 py-2 text-sm transition ${
                     sortOption === opt ? "bg-red-500 text-white" : "text-zinc-300"
                   }`}
                 >
@@ -227,30 +303,36 @@ export default function PortalMarketingLobao() {
             </div>
 
             {selectedDept && (
-              <a href="?" className="px-4 py-2 text-sm border rounded-xl">
+              <a
+                href="?"
+                className="rounded-xl border border-white/10 px-4 py-2 text-center text-sm transition hover:border-red-500/40 hover:bg-zinc-800"
+              >
                 Limpar filtro
               </a>
             )}
           </div>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {sortedServices.map((service) => (
-            <div key={service.title} className="p-4 border rounded-xl bg-zinc-900 flex flex-col">
-              <div className="flex justify-between mb-3">
-                <span>{service.icon}</span>
-                <span className="text-xs">{service.tag}</span>
+            <div
+              key={service.title}
+              className="flex h-full flex-col rounded-xl border border-white/10 bg-zinc-900 p-4 transition hover:-translate-y-1 hover:border-red-500/40"
+            >
+              <div className="mb-3 flex items-start justify-between gap-3">
+                <span className="text-2xl">{service.icon}</span>
+                <span className="rounded-full border border-white/10 px-2 py-1 text-[11px] text-zinc-400">{service.tag}</span>
               </div>
 
-              <h3 className="font-bold">{service.title}</h3>
-              <p className="text-sm text-zinc-400">{service.description}</p>
+              <h3 className="text-base font-bold sm:text-lg">{service.title}</h3>
+              <p className="text-sm leading-6 text-zinc-400">{service.description}</p>
 
               <div className="mt-auto flex flex-col gap-2 pt-4">
                 <a
                   href={service.link}
                   target="_blank"
                   onClick={() => handleServiceView(service.title)}
-                  className="bg-white text-black text-center py-2 rounded-lg"
+                  className="rounded-lg bg-white py-2.5 text-center text-black transition hover:bg-red-500 hover:text-white"
                 >
                   Abrir formulário
                 </a>
@@ -259,7 +341,7 @@ export default function PortalMarketingLobao() {
                   <a
                     href={service.calendarLink}
                     target="_blank"
-                    className="border text-center py-2 rounded-lg"
+                    className="rounded-lg border border-white/20 py-2.5 text-center transition hover:border-red-500/40 hover:bg-zinc-800"
                   >
                     Ver agenda
                   </a>
