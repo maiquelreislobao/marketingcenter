@@ -39,6 +39,8 @@ export default function PortalMarketingLobao() {
       icon: "🚐",
       tag: "Visita externa",
       link: "https://clobao.atlassian.net/jira/software/projects/MKTRDSH/form/407",
+      calendarLink:
+        "https://clobao.atlassian.net/jira/software/projects/MKTRDSH/boards/881/calendar",
     },
     {
       title: "Showroom",
@@ -328,24 +330,26 @@ export default function PortalMarketingLobao() {
               <p className="text-sm leading-6 text-zinc-400">{service.description}</p>
 
               <div className="mt-auto flex flex-col gap-2 pt-4">
-                <a
-                  href={service.link}
-                  target="_blank"
-                  onClick={() => handleServiceView(service.title)}
-                  className="rounded-lg bg-white py-2.5 text-center text-black transition hover:bg-red-500 hover:text-white"
-                >
-                  Abrir formulário
-                </a>
-
                 {service.calendarLink && (
                   <a
                     href={service.calendarLink}
                     target="_blank"
+                    rel="noopener noreferrer"
                     className="rounded-lg border border-white/20 py-2.5 text-center transition hover:border-red-500/40 hover:bg-zinc-800"
                   >
                     Ver agenda
                   </a>
                 )}
+
+                <a
+                  href={service.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => handleServiceView(service.title)}
+                  className="rounded-lg bg-white py-2.5 text-center text-black transition hover:bg-red-500 hover:text-white"
+                >
+                  Abrir formulário
+                </a>
               </div>
             </div>
           ))}
