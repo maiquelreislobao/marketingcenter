@@ -192,14 +192,7 @@ export default function PortalMarketingLobao() {
               />
             </div>
 
-            <div className="min-w-0">
-              <p className="truncate text-sm font-semibold text-white">
-                Central de solicitações de Marketing
-              </p>
-              <p className="truncate text-xs text-zinc-400">
-                Portal interno • Jira Forms • Marketing
-              </p>
-            </div>
+            <div className="min-w-0"></div>
           </div>
 
           <div className="hidden items-center gap-2 md:flex">
@@ -266,9 +259,7 @@ export default function PortalMarketingLobao() {
       <section className="border-b border-white/10 bg-gradient-to-br from-red-600 via-red-500 to-zinc-950">
         <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12 lg:px-10">
           <div className="max-w-3xl">
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm">
-              🚀 Portal de Solicitações de Marketing
-            </div>
+            
 
             <h1 className="text-3xl font-black leading-tight sm:text-4xl md:text-5xl">
               Central de solicitações de Marketing
