@@ -100,6 +100,14 @@ export default function PortalMarketingLobao() {
       tag: "Audiovisual",
       link: "https://clobao.atlassian.net/jira/software/projects/MKTVIDEOS/form/639",
     },
+    {
+      title: "Artworks",
+      description:
+        "Solicitação de artworks para materiais e necessidades do departamento de Compras.",
+      icon: "🖼️",
+      tag: "Criação",
+      link: "https://clobao.atlassian.net/servicedesk/customer/portal/8",
+    },
   ];
 
   const departmentMap = {
@@ -110,6 +118,14 @@ export default function PortalMarketingLobao() {
       "Implantações",
       "Gráfico",
       "Showroom",
+    ],
+    Compras: [
+      "Artworks",
+      "Gráfico",
+      "Showroom",
+      "Fotos",
+      "Vídeos",
+      "Implantações",
     ],
     Direção: services.map((s) => s.title),
     Logística: ["Solicitação de Materiais", "Gráfico"],
@@ -138,6 +154,23 @@ export default function PortalMarketingLobao() {
     if (viewsB !== viewsA) return viewsB - viewsA;
     return a.title.localeCompare(b.title);
   });
+
+  const handleDeptSelect = (dept) => {
+    try {
+      setSelectedDept(dept);
+      if (typeof window !== "undefined") {
+        const url = new URL(window.location.href);
+        if (dept) {
+          url.searchParams.set("dept", dept);
+        } else {
+          url.searchParams.delete("dept");
+        }
+        window.history.replaceState({}, "", url.toString());
+      }
+    } catch (error) {
+      console.error("Erro ao atualizar filtro:", error);
+    }
+  };
 
   const handleServiceView = (title) => {
     try {
@@ -259,19 +292,32 @@ export default function PortalMarketingLobao() {
         <p className="mb-2 text-sm text-zinc-400">Clique no departamento ou use um link direto</p>
         <h2 className="mb-5 text-xl font-black sm:text-2xl">Solicitar por departamento</h2>
 
-        <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-6">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 xl:grid-cols-7">
+          <button
+            type="button"
+            onClick={() => handleDeptSelect(null)}
+            className={`flex min-h-[56px] items-center justify-center rounded-xl border px-3 py-3 text-sm font-semibold transition sm:px-4 sm:py-4 ${
+              !selectedDept
+                ? "border-red-500 bg-red-500 text-white"
+                : "border-white/10 bg-zinc-900 text-zinc-100 hover:border-red-500/40 hover:bg-zinc-800"
+            }`}
+          >
+            Todos
+          </button>
+
           {Object.keys(departmentMap).map((dept) => (
-            <a
+            <button
               key={dept}
-              href={`?dept=${encodeURIComponent(dept)}`}
+              type="button"
+              onClick={() => handleDeptSelect(dept)}
               className={`flex min-h-[56px] items-center justify-center rounded-xl border px-3 py-3 text-sm font-semibold transition sm:px-4 sm:py-4 ${
                 selectedDept === dept
-                  ? "border-red-500 bg-red-500"
-                  : "border-white/10 bg-zinc-900 hover:border-red-500/40 hover:bg-zinc-800"
+                  ? "border-red-500 bg-red-500 text-white"
+                  : "border-white/10 bg-zinc-900 text-zinc-100 hover:border-red-500/40 hover:bg-zinc-800"
               }`}
             >
               {dept}
-            </a>
+            </button>
           ))}
         </div>
       </section>
@@ -305,12 +351,13 @@ export default function PortalMarketingLobao() {
             </div>
 
             {selectedDept && (
-              <a
-                href="?"
+              <button
+                type="button"
+                onClick={() => handleDeptSelect(null)}
                 className="rounded-xl border border-white/10 px-4 py-2 text-center text-sm transition hover:border-red-500/40 hover:bg-zinc-800"
               >
                 Limpar filtro
-              </a>
+              </button>
             )}
           </div>
         </div>
