@@ -183,16 +183,14 @@ export default function PortalMarketingLobao() {
     <div className="min-h-screen overflow-x-hidden bg-zinc-950 text-white">
       <header className="sticky top-0 z-50 border-b border-white/10 bg-zinc-950/95 backdrop-blur-md">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-10">
-          <div className="flex min-w-0 items-center gap-3">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5">
+          <div className="flex items-center justify-center md:justify-start">
+            <div className="flex h-14 w-14 items-center justify-center rounded-xl border border-white/10 bg-white/5">
               <img
                 src="/logo.png"
                 alt="Logo"
-                className="h-9 w-9 object-contain"
+                className="h-10 w-10 object-contain"
               />
             </div>
-
-            <div className="min-w-0"></div>
           </div>
 
           <div className="hidden items-center gap-2 md:flex">
