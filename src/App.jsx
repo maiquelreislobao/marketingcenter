@@ -84,14 +84,7 @@ export default function PortalMarketingLobao() {
       tag: "Conteúdo visual",
       link: "https://clobao.atlassian.net/jira/software/projects/MKTFOTOS/form/440",
     },
-    {
-      title: "Digital",
-      description:
-        "Solicitação de posts, criação de conteúdo para blog e ações de e-mail marketing.",
-      icon: "💻",
-      tag: "Marketing digital",
-      link: "https://clobao.atlassian.net/jira/core/projects/MAR/form/638",
-    },
+    
     {
       title: "Vídeos",
       description:
@@ -129,7 +122,7 @@ export default function PortalMarketingLobao() {
     ],
     Direção: services.map((s) => s.title),
     Logística: ["Solicitação de Materiais", "Gráfico"],
-    RH: ["Digital", "Vídeos", "Fotos", "Gráfico"],
+    RH: ["Vídeos", "Fotos", "Gráfico"],
     SAC: [
       "Gráfico",
       "Solicitação de Materiais",
