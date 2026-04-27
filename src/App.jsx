@@ -129,6 +129,7 @@ export default function PortalMarketingLobao() {
       "Roadshow",
       "Showroom",
       "Merchandising",
+      "Fotos",
     ],
     SAT: ["Gráfico"],
   };
@@ -377,7 +378,7 @@ export default function PortalMarketingLobao() {
                   onClick={() => handleServiceView(service.title)}
                   className="rounded-lg bg-white py-2.5 text-center text-black transition hover:bg-red-500 hover:text-white"
                 >
-                  Abrir formulário
+                  Fazer solicitação
                 </a>
               </div>
             </div>
