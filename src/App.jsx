@@ -385,6 +385,15 @@ export default function PortalMarketingLobao() {
           ))}
         </div>
       </main>
+
+      <a
+        href="https://clobao.atlassian.net/jira/filters"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-5 right-5 z-50 flex items-center gap-2 rounded-full border border-red-500/30 bg-red-500 px-5 py-3 text-sm font-semibold text-white shadow-2xl transition hover:scale-105 hover:bg-red-600"
+      >
+        🔎 Ver meus filtros
+      </a>
     </div>
   );
 }
