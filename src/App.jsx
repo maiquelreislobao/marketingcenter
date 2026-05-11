@@ -122,7 +122,7 @@ export default function PortalMarketingLobao() {
     ],
     Direção: services.map((s) => s.title),
     Logística: ["Solicitação de Materiais", "Gráfico"],
-    RH: ["Vídeos", "Fotos", "Gráfico"],
+    RH: ["Solicitação de Materiais", "Vídeos", "Fotos", "Gráfico"],
     SAC: [
       "Gráfico",
       "Solicitação de Materiais",
@@ -152,14 +152,26 @@ export default function PortalMarketingLobao() {
   const handleDeptSelect = (dept) => {
     try {
       setSelectedDept(dept);
+
       if (typeof window !== "undefined") {
         const url = new URL(window.location.href);
+
         if (dept) {
           url.searchParams.set("dept", dept);
         } else {
           url.searchParams.delete("dept");
         }
+
         window.history.replaceState({}, "", url.toString());
+
+        const categoriasSection = document.getElementById("categorias");
+
+        if (categoriasSection) {
+          categoriasSection.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }
       }
     } catch (error) {
       console.error("Erro ao atualizar filtro:", error);
