@@ -101,6 +101,14 @@ export default function PortalMarketingLobao() {
       tag: "Criação",
       link: "https://clobao.atlassian.net/servicedesk/customer/portal/8",
     },
+    {
+      title: "Campanhas RH",
+      description:
+        "Solicitação de campanhas internas e ações de comunicação para Recursos Humanos.",
+      icon: "📢",
+      tag: "RH",
+      link: "https://clobao.atlassian.net/jira/software/projects/MKTRH/form/473",
+    },
   ];
 
   const departmentMap = {
@@ -122,7 +130,8 @@ export default function PortalMarketingLobao() {
     ],
     Direção: services.map((s) => s.title),
     Logística: ["Solicitação de Materiais", "Gráfico"],
-    RH: ["Solicitação de Materiais", "Vídeos", "Fotos", "Gráfico"],
+    Qualidade: ["Fotos", "Gráfico", "Solicitação de Materiais"],
+    RH: ["Solicitação de Materiais", "Vídeos", "Fotos", "Gráfico", "Campanhas RH"],
     SAC: [
       "Gráfico",
       "Solicitação de Materiais",
@@ -136,7 +145,7 @@ export default function PortalMarketingLobao() {
 
   const filteredServices = selectedDept
     ? services.filter((s) => (departmentMap[selectedDept] || []).includes(s.title))
-    : services;
+    : services.filter((s) => s.title !== "Campanhas RH");
 
   const sortedServices = [...filteredServices].sort((a, b) => {
     if (sortOption === "asc") return a.title.localeCompare(b.title);
