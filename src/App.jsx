@@ -119,6 +119,7 @@ export default function PortalMarketingLobao() {
       "Implantações",
       "Gráfico",
       "Showroom",
+      "Fotos",
     ],
     Compras: [
       "Artworks",
