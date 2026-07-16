@@ -12,10 +12,18 @@ export default function PortalMarketingLobao() {
 
       const params = new URLSearchParams(window.location.search);
       const deptFromUrl = params.get("dept");
-      if (deptFromUrl) setSelectedDept(deptFromUrl);
 
-      const savedViews = window.localStorage.getItem("marketing-service-views");
-      if (savedViews) setViewCounts(JSON.parse(savedViews));
+      if (deptFromUrl) {
+        setSelectedDept(deptFromUrl);
+      }
+
+      const savedViews = window.localStorage.getItem(
+        "marketing-service-views"
+      );
+
+      if (savedViews) {
+        setViewCounts(JSON.parse(savedViews));
+      }
     } catch (error) {
       console.error("Erro ao carregar dados:", error);
     }
@@ -23,24 +31,24 @@ export default function PortalMarketingLobao() {
 
   const services = [
     {
-      title: "Merchandising",
-      description:
-        "Solicitação de organização de pontos de venda para fortalecer a presença da marca nas revendas.",
-      icon: "🛍️",
-      tag: "PDV",
-      link: "https://clobao.atlassian.net/jira/software/projects/MKTMRCH/form/308",
-      calendarLink:
-        "https://clobao.atlassian.net/jira/software/projects/MKTMRCH/boards/749/calendar",
-    },
+  title: "Solicitar Merchandiser",
+  description:
+    "Agendamento de uma visita do merchandiser ao ponto de venda para organizar e otimizar o espaço destinado às nossas marcas.",
+  icon: "🛍️",
+  tag: "PDV",
+  link: "https://clobao.atlassian.net/jira/software/projects/MKTMRCH/form/308",
+  calendarLink:
+    "https://clobao.atlassian.net/jira/software/projects/MKTMRCH/boards/749/calendar",
+},
     {
       title: "Roadshow",
       description:
         "Solicitação de visita ao cliente revendedor com carrinha e promotor para apresentação de produtos.",
       icon: "🚐",
       tag: "Visita externa",
-      link: "https://clobao.atlassian.net/jira/software/projects/MKTRDSH/form/407",
+      link: "https://clobao.atlassian.net/jira/software/projects/MKTRDS/form/804",
       calendarLink:
-        "https://clobao.atlassian.net/jira/software/projects/MKTRDSH/boards/881/calendar",
+        "https://clobao.atlassian.net/jira/software/projects/MKTRDS/boards/1245/calendar",
     },
     {
       title: "Showroom",
@@ -61,7 +69,7 @@ export default function PortalMarketingLobao() {
       link: "https://clobao.atlassian.net/jira/software/projects/MKTSOLCT/form/374",
     },
     {
-      title: "Implantações",
+      title: "Implantações/Expositores",
       description:
         "Solicitação de desenvolvimento de expositores, materiais para feiras e personalização de revendas.",
       icon: "🧩",
@@ -84,7 +92,6 @@ export default function PortalMarketingLobao() {
       tag: "Conteúdo visual",
       link: "https://clobao.atlassian.net/jira/software/projects/MKTFOTOS/form/440",
     },
-    
     {
       title: "Vídeos",
       description:
@@ -113,10 +120,10 @@ export default function PortalMarketingLobao() {
 
   const departmentMap = {
     Comercial: [
-      "Merchandising",
+      "Solicitar Merchandiser",
       "Solicitação de Materiais",
       "Roadshow",
-      "Implantações",
+      "Implantações/Expositores",
       "Gráfico",
       "Showroom",
       "Fotos",
@@ -127,62 +134,80 @@ export default function PortalMarketingLobao() {
       "Showroom",
       "Fotos",
       "Vídeos",
-      "Implantações",
+      "Implantações/Expositores",
     ],
-    Direção: services.map((s) => s.title),
+    Direção: services.map((service) => service.title),
     Logística: ["Solicitação de Materiais", "Gráfico"],
     Qualidade: ["Fotos", "Gráfico", "Solicitação de Materiais"],
-    RH: ["Solicitação de Materiais", "Vídeos", "Fotos", "Gráfico", "Campanhas RH"],
+    RH: [
+      "Solicitação de Materiais",
+      "Vídeos",
+      "Fotos",
+      "Gráfico",
+      "Campanhas RH",
+    ],
     SAC: [
       "Gráfico",
       "Solicitação de Materiais",
       "Roadshow",
       "Showroom",
-      "Merchandising",
+      "Solicitar Merchandiser",
       "Fotos",
     ],
     SAT: ["Gráfico"],
   };
 
   const filteredServices = selectedDept
-    ? services.filter((s) => (departmentMap[selectedDept] || []).includes(s.title))
-    : services.filter((s) => s.title !== "Campanhas RH");
+    ? services.filter((service) =>
+        (departmentMap[selectedDept] || []).includes(service.title)
+      )
+    : services.filter((service) => service.title !== "Campanhas RH");
 
   const sortedServices = [...filteredServices].sort((a, b) => {
-    if (sortOption === "asc") return a.title.localeCompare(b.title);
-    if (sortOption === "desc") return b.title.localeCompare(a.title);
+    if (sortOption === "asc") {
+      return a.title.localeCompare(b.title);
+    }
+
+    if (sortOption === "desc") {
+      return b.title.localeCompare(a.title);
+    }
 
     const viewsA = viewCounts[a.title] || 0;
     const viewsB = viewCounts[b.title] || 0;
 
-    if (viewsB !== viewsA) return viewsB - viewsA;
+    if (viewsB !== viewsA) {
+      return viewsB - viewsA;
+    }
+
     return a.title.localeCompare(b.title);
   });
 
-  const handleDeptSelect = (dept) => {
+  const handleDeptSelect = (department) => {
     try {
-      setSelectedDept(dept);
+      setSelectedDept(department);
 
-      if (typeof window !== "undefined") {
-        const url = new URL(window.location.href);
+      if (typeof window === "undefined") return;
 
-        if (dept) {
-          url.searchParams.set("dept", dept);
-        } else {
-          url.searchParams.delete("dept");
-        }
+      const url = new URL(window.location.href);
 
-        window.history.replaceState({}, "", url.toString());
+      if (department) {
+        url.searchParams.set("dept", department);
+      } else {
+        url.searchParams.delete("dept");
+      }
 
-        const categoriasSection = document.getElementById("categorias");
+      window.history.replaceState({}, "", url.toString());
 
-        if (categoriasSection) {
-          categoriasSection.scrollIntoView({
+      window.requestAnimationFrame(() => {
+        const categoriesSection = document.getElementById("categorias");
+
+        if (categoriesSection) {
+          categoriesSection.scrollIntoView({
             behavior: "smooth",
             block: "start",
           });
         }
-      }
+      });
     } catch (error) {
       console.error("Erro ao atualizar filtro:", error);
     }
@@ -190,13 +215,19 @@ export default function PortalMarketingLobao() {
 
   const handleServiceView = (title) => {
     try {
-      const updated = {
+      const updatedViews = {
         ...viewCounts,
         [title]: (viewCounts[title] || 0) + 1,
       };
 
-      setViewCounts(updated);
-      window.localStorage.setItem("marketing-service-views", JSON.stringify(updated));
+      setViewCounts(updatedViews);
+
+      if (typeof window !== "undefined") {
+        window.localStorage.setItem(
+          "marketing-service-views",
+          JSON.stringify(updatedViews)
+        );
+      }
     } catch (error) {
       console.error("Erro ao guardar visualizações:", error);
     }
@@ -210,38 +241,40 @@ export default function PortalMarketingLobao() {
             <div className="flex h-14 w-14 items-center justify-center rounded-xl border border-white/10 bg-white/5">
               <img
                 src="/logo.png"
-                alt="Logo"
+                alt="Central Lobão"
                 className="h-10 w-10 object-contain"
               />
             </div>
           </div>
 
-          <div className="hidden items-center gap-2 md:flex">
+          <nav className="hidden items-center gap-2 md:flex">
             <a
               href="?"
               className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-zinc-200 transition hover:border-red-500/40 hover:bg-zinc-800"
             >
               Início
             </a>
+
             <a
               href="#departamentos"
               className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-zinc-200 transition hover:border-red-500/40 hover:bg-zinc-800"
             >
               Departamentos
             </a>
+
             <a
               href="#categorias"
               className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-zinc-200 transition hover:border-red-500/40 hover:bg-zinc-800"
             >
               Categorias
             </a>
-          </div>
+          </nav>
 
           <button
             type="button"
-            aria-label="Abrir menu"
+            aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
             aria-expanded={menuOpen}
-            onClick={() => setMenuOpen((prev) => !prev)}
+            onClick={() => setMenuOpen((previous) => !previous)}
             className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white transition hover:border-red-500/40 hover:bg-zinc-800 md:hidden"
           >
             <span className="text-lg">{menuOpen ? "✕" : "☰"}</span>
@@ -250,7 +283,7 @@ export default function PortalMarketingLobao() {
 
         {menuOpen && (
           <div className="border-t border-white/10 bg-zinc-950/95 px-4 py-3 sm:px-6 md:hidden">
-            <div className="flex flex-col gap-2">
+            <nav className="flex flex-col gap-2">
               <a
                 href="?"
                 onClick={() => setMenuOpen(false)}
@@ -258,6 +291,7 @@ export default function PortalMarketingLobao() {
               >
                 Início
               </a>
+
               <a
                 href="#departamentos"
                 onClick={() => setMenuOpen(false)}
@@ -265,6 +299,7 @@ export default function PortalMarketingLobao() {
               >
                 Departamentos
               </a>
+
               <a
                 href="#categorias"
                 onClick={() => setMenuOpen(false)}
@@ -272,7 +307,7 @@ export default function PortalMarketingLobao() {
               >
                 Categorias
               </a>
-            </div>
+            </nav>
           </div>
         )}
       </header>
@@ -280,28 +315,35 @@ export default function PortalMarketingLobao() {
       <section className="border-b border-white/10 bg-gradient-to-br from-red-600 via-red-500 to-zinc-950">
         <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12 lg:px-10">
           <div className="max-w-3xl">
-            
-
             <h1 className="text-3xl font-black leading-tight sm:text-4xl md:text-5xl">
               Central de solicitações de Marketing
             </h1>
 
             <p className="mt-4 max-w-2xl text-sm leading-6 text-white/80 sm:text-base">
-              Portal interno para envio de solicitações ao departamento de Marketing através de formulários Jira organizados por categoria.
+              Portal interno para envio de solicitações ao departamento de
+              Marketing através de formulários Jira organizados por categoria.
             </p>
           </div>
         </div>
       </section>
 
-      <section id="departamentos" className="mx-auto max-w-7xl px-4 py-8 scroll-mt-24 sm:px-6 sm:py-10 lg:px-10">
-        <p className="mb-2 text-sm text-zinc-400">Clique no departamento ou use um link direto</p>
-        <h2 className="mb-5 text-xl font-black sm:text-2xl">Solicitar por departamento</h2>
+      <section
+        id="departamentos"
+        className="scroll-mt-24 mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-10"
+      >
+        <p className="mb-2 text-sm text-zinc-400">
+          Clique no departamento para visualizar as solicitações recomendadas.
+        </p>
 
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 xl:grid-cols-7">
+        <h2 className="mb-5 text-xl font-black sm:text-2xl">
+          Solicitar por departamento
+        </h2>
+
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 xl:grid-cols-5">
           <button
             type="button"
             onClick={() => handleDeptSelect(null)}
-            className={`flex min-h-[56px] items-center justify-center rounded-xl border px-3 py-3 text-sm font-semibold transition sm:px-4 sm:py-4 ${
+            className={`flex min-h-14 items-center justify-center rounded-xl border px-3 py-3 text-sm font-semibold transition sm:px-4 sm:py-4 ${
               !selectedDept
                 ? "border-red-500 bg-red-500 text-white"
                 : "border-white/10 bg-zinc-900 text-zinc-100 hover:border-red-500/40 hover:bg-zinc-800"
@@ -310,24 +352,27 @@ export default function PortalMarketingLobao() {
             Todos
           </button>
 
-          {Object.keys(departmentMap).map((dept) => (
+          {Object.keys(departmentMap).map((department) => (
             <button
-              key={dept}
+              key={department}
               type="button"
-              onClick={() => handleDeptSelect(dept)}
-              className={`flex min-h-[56px] items-center justify-center rounded-xl border px-3 py-3 text-sm font-semibold transition sm:px-4 sm:py-4 ${
-                selectedDept === dept
+              onClick={() => handleDeptSelect(department)}
+              className={`flex min-h-14 items-center justify-center rounded-xl border px-3 py-3 text-sm font-semibold transition sm:px-4 sm:py-4 ${
+                selectedDept === department
                   ? "border-red-500 bg-red-500 text-white"
                   : "border-white/10 bg-zinc-900 text-zinc-100 hover:border-red-500/40 hover:bg-zinc-800"
               }`}
             >
-              {dept}
+              {department}
             </button>
           ))}
         </div>
       </section>
 
-      <main id="categorias" className="mx-auto max-w-7xl px-4 pb-12 scroll-mt-24 sm:px-6 sm:pb-14 lg:px-10">
+      <main
+        id="categorias"
+        className="scroll-mt-24 mx-auto max-w-7xl px-4 pb-12 sm:px-6 sm:pb-14 lg:px-10"
+      >
         <div className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <h2 className="text-2xl font-black sm:text-3xl">
@@ -335,22 +380,28 @@ export default function PortalMarketingLobao() {
                 ? `Solicitações recomendadas para ${selectedDept}`
                 : "Escolha a categoria da solicitação"}
             </h2>
-            <p className="text-sm text-zinc-400">Cada categoria leva a um formulário específico no Jira.</p>
+
+            <p className="mt-1 text-sm text-zinc-400">
+              Cada categoria direciona para um formulário específico no Jira.
+            </p>
           </div>
 
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
             <div className="grid grid-cols-1 gap-2 rounded-xl border border-white/10 bg-zinc-900 p-1 sm:flex sm:gap-2">
-              {["asc", "desc", "views"].map((opt) => (
+              {["asc", "desc", "views"].map((option) => (
                 <button
-                  key={opt}
-                  onClick={() => setSortOption(opt)}
+                  key={option}
+                  type="button"
+                  onClick={() => setSortOption(option)}
                   className={`rounded-lg px-3 py-2 text-sm transition ${
-                    sortOption === opt ? "bg-red-500 text-white" : "text-zinc-300"
+                    sortOption === option
+                      ? "bg-red-500 text-white"
+                      : "text-zinc-300 hover:bg-zinc-800"
                   }`}
                 >
-                  {opt === "asc" && "Crescente"}
-                  {opt === "desc" && "Decrescente"}
-                  {opt === "views" && "Mais vistas"}
+                  {option === "asc" && "Crescente"}
+                  {option === "desc" && "Decrescente"}
+                  {option === "views" && "Mais vistas"}
                 </button>
               ))}
             </div>
@@ -369,17 +420,33 @@ export default function PortalMarketingLobao() {
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {sortedServices.map((service) => (
-            <div
+            <article
               key={service.title}
               className="flex h-full flex-col rounded-xl border border-white/10 bg-zinc-900 p-4 transition hover:-translate-y-1 hover:border-red-500/40"
             >
               <div className="mb-3 flex items-start justify-between gap-3">
-                <span className="text-2xl">{service.icon}</span>
-                <span className="rounded-full border border-white/10 px-2 py-1 text-[11px] text-zinc-400">{service.tag}</span>
+                <span className="text-2xl" aria-hidden="true">
+                  {service.icon}
+                </span>
+
+                <span className="rounded-full border border-white/10 px-2 py-1 text-[11px] text-zinc-400">
+                  {service.tag}
+                </span>
               </div>
 
-              <h3 className="text-base font-bold sm:text-lg">{service.title}</h3>
-              <p className="text-sm leading-6 text-zinc-400">{service.description}</p>
+              <h3 className="text-base font-bold sm:text-lg">
+                {service.title}
+              </h3>
+
+              <p className="mt-1 text-sm leading-6 text-zinc-400">
+                {service.description}
+              </p>
+
+              {sortOption === "views" && (
+                <p className="mt-3 text-xs text-zinc-500">
+                  Visualizações: {viewCounts[service.title] || 0}
+                </p>
+              )}
 
               <div className="mt-auto flex flex-col gap-2 pt-4">
                 {service.calendarLink && (
@@ -398,12 +465,12 @@ export default function PortalMarketingLobao() {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => handleServiceView(service.title)}
-                  className="rounded-lg bg-white py-2.5 text-center text-black transition hover:bg-red-500 hover:text-white"
+                  className="rounded-lg bg-white py-2.5 text-center font-medium text-black transition hover:bg-red-500 hover:text-white"
                 >
                   Fazer solicitação
                 </a>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       </main>
